@@ -1,0 +1,86 @@
+import scala.annotation.tailrec
+import scala.collection.JavaConversions._
+
+object PseudoNotationScala {
+  def writePseudoNotation(toScan: java.util.ArrayList[String], fileName: String) {
+    val coordList = toScan.toList
+    var x = 0
+    var x1 = 0
+    var y = 0
+    var y1 = 0
+
+    def matcher(i : Int, j: Int) {
+      x = coordList.get(i).toInt;
+      x1 = coordList.get(j).toInt;
+      x1-x match {
+        case -25 => {
+          System.out.println("Pacman сделал шаг влево");
+          NotationWrite.update(fileName, "Pacman сделал шаг влево");
+        }
+        case 25 => {
+          System.out.println("Pacman сделал шаг вправо");
+          NotationWrite.update(fileName, "Pacman сделал шаг вправо");
+        }
+        case 0 => {
+           y = coordList.get(i + 1).toInt;
+           y1 = coordList.get(j + 1).toInt;
+             y1-y match {
+               case -25 => {
+                  System.out.println("Pacman сделал шаг вверх");
+                  NotationWrite.update(fileName, "Pacman сделал шаг вверх");
+               }
+               case 25 => {
+                 System.out.println("Pacman сделал шаг вниз");
+                 NotationWrite.update(fileName, "Pacman сделал шаг вниз");
+               }
+               case 0 => {
+                 System.out.println("Pacman стоит у стенки ");
+                 NotationWrite.update(fileName, "Pacman стоит у стенки");
+               }
+               case _ => {
+                 System.out.println("Привидение съело Pacmana");
+                 NotationWrite.update(fileName, "Привидение съело Pacmana");
+               }
+             }
+        }
+        case _ => {
+          System.out.println("Привидение съело Pacmana");
+          NotationWrite.update(fileName, "Привидение съело Pacmana");
+        }
+      }
+    }
+  
+    @tailrec
+    def outerLoop(i: Int, j: Int) {
+      if (j < coordList.size) {
+        matcher (i, j)
+      /*  x = coordList.get(i).toInt;
+        x1 = coordList.get(j).toInt;
+        //System.out.println(x1-x);
+        if (x1 - x == 25) {
+          System.out.println("Pacman сделал шаг вправо");
+          NotationWrite.update(fileName, "Pacman сделал шаг вправо");
+        } else if (x1 - x == -25) {
+          System.out.println("Pacman сделал шаг влево");
+          NotationWrite.update(fileName, "Pacman сделал шаг влево");
+        } else if (x1 - x != 0) {
+          System.out.println("Привидение съело Pacmana");
+          NotationWrite.update(fileName, "Привидение съело Pacmana");
+        } else if (x1 - x == 0) {
+          y = coordList.get(i + 1).toInt;
+          y1 = coordList.get(j + 1).toInt;
+          if (y1 - y == 25) {
+            System.out.println("Pacman сделал шаг вниз");
+            NotationWrite.update(fileName, "Pacman сделал шаг вниз");
+          } else if (y1 - y == -25) {
+            System.out.println("Pacman сделал шаг вверх");
+            NotationWrite.update(fileName, "Pacman сделал шаг вверх");
+          } else if (y1 - y == 0)
+            System.out.println("Pacman стоит у стенки ");
+          NotationWrite.update(fileName, "Pacman стоит у стенки");*/
+        outerLoop(i + 2, j + 2)
+      }
+    }
+    outerLoop(0, 2)
+  }
+}
